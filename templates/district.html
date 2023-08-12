@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block title %}District {{ district.name }}{% endblock %}
+
+{% block body %}
+    <h1>Villages in District {{ district.name }}</h1>
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Village</th>
+            </tr>
+        </thead>
+        {% for village in villages %}
+            <tr>
+                <th scope="row">{{ forloop.counter }}</th>
+                <td><a href="{% url 'village' village.id %}">{{ village.name }}</a></td>
+            </tr>
+        {% endfor %}
+    </table>
+{% endblock %}

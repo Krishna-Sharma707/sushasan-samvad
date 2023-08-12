@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block title %}
+Village {{ village.name }}
+{% endblock %}
+{% block body %}
+    <h1>Grievances shared by residents of {{ village.name }}</h1>
+    <h1>Meetings of {{ village.name }}</h1>
+    {% load feedbacktags %}
+    {% village_admin request.user as is_village_admin %}
+    {% if is_village_admin %}
+        <a href="/upload_meeting"><button>Upload new meeting</button></a>
+    {% endif %}
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Held on</th>
+            </tr>
+        </thead>
+        {% for meeting in meetings %}
+            <tr>
+                <th scope="row">{{ forloop.counter }}</th>
+                <td><a href="/meetings/{{ meeting.id }}">{{ meeting.date }}</a></td>
+            </tr>
+        {% endfor %}
+    </table>
+{% endblock %}

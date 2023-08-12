@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block title %}Register{% endblock %}
+
+{% load widget_tweaks %}
+{% block body %}
+    <form method="post">
+    {% csrf_token %}
+    {% for hidden in form.hidden_fields %}
+      {{ hidden }}
+    {% endfor %}
+    {% for field in form.visible_fields %}
+      <div class="form-group mb-3" id="div_{{ field.id_for_label }}">
+        <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+        {{ field|add_class:'form-control' }}
+        {% for error in field.errors %}
+          <span class="help-block">{{ error }}</span>
+        {% endfor %}
+      </div>
+    {% endfor %}
+    <div class="form-group">
+      <button type="submit" class="btn btn-success">
+        <span class="glyphicon glyphicon-ok"></span> Save
+      </button>
+    </div>
+    </form>
+
+    <script>
+        role = document.getElementById("id_role");
+        dept = document.getElementById("div_id_department");
+        village = document.getElementById("div_id_village")
+
+        VILLAGER = 2
+        VILLAGE_ADMIN = 1
+        DISTRICT_ADMIN = 3
+        function hide_dept() {
+            if (role.value == VILLAGER || role.value == VILLAGE_ADMIN) {
+                dept.style.display = 'none';
+            } else {
+                dept.style.display = 'block';
+            }
+
+            if (role.value == DISTRICT_ADMIN) {
+                village.style.display = 'none';
+            } else {
+                village.style.display = 'block';
+            }
+        }
+        window.onload = hide_dept;
+        role.addEventListener("change", hide_dept);
+    </script>
+{% endblock %}
